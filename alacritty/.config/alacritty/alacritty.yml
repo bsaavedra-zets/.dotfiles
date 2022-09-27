@@ -1,0 +1,107 @@
+#hola
+#como estas
+#bien y tu
+window:
+  # Background opacity
+  #
+  # Window opacity as a floating point number from `0.0` to `1.0`.
+  # The value `0.0` is completely transparent and `1.0` is opaque.
+  opacity: 0.8
+
+
+scrolling:
+  # Maximum number of lines in the scrollback buffer.
+  # Specifying '0' will disable scrolling.
+  history: 50000
+
+  # Scrolling distance multiplier.
+  #multiplier: 3
+
+# Font configuration
+font:
+  # Normal (roman) font face
+  normal:
+    # Font family
+    #
+    # Default:
+    #   - (macOS) Menlo
+    #   - (Linux/BSD) monospace
+    #   - (Windows) Consolas
+    # family: hack
+    family: CaskaydiaCove Nerd Font
+
+    # The `style` can be specified to pick a specific face.
+    style: Regular
+
+  # Bold font face
+  bold:
+    # Font family
+    #
+    # If the bold family is not specified, it will fall back to the
+    # value specified for the normal font.
+    # family: hack
+    family: CaskaydiaCove Nerd Font
+
+    # The `style` can be specified to pick a specific face.
+    style: Bold
+
+  # Italic font face
+  italic:
+    # Font family
+    #
+    # If the italic family is not specified, it will fall back to the
+    # value specified for the normal font.
+    # family: hack
+    family: CaskaydiaCove Nerd Font
+
+    # The `style` can be specified to pick a specific face.
+    style: Italic
+
+  # Bold italic font face
+  bold_italic:
+    # Font family
+    #
+    # If the bold italic family is not specified, it will fall back to the
+    # value specified for the normal font.
+    # family: monospace
+    family: CaskaydiaCove Nerd Font
+
+    # The `style` can be specified to pick a specific face.
+    style: Bold Italic
+
+  # Point size
+  size: 10.0
+
+# TokyoNight Alacritty Colors
+colors:
+  # Default colors
+  primary:
+    background: '0x24283b'
+    foreground: '0xc0caf5'
+
+  # Normal colors
+  normal:
+    black:   '0x1D202F'
+    red:     '0xf7768e'
+    green:   '0x9ece6a'
+    yellow:  '0xe0af68'
+    blue:    '0x7aa2f7'
+    magenta: '0xbb9af7'
+    cyan:    '0x7dcfff'
+    white:   '0xa9b1d6'
+
+  # Bright colors
+  bright:
+    black:   '0x414868'
+    red:     '0xf7768e'
+    green:   '0x9ece6a'
+    yellow:  '0xe0af68'
+    blue:    '0x7aa2f7'
+    magenta: '0xbb9af7'
+    cyan:    '0x7dcfff'
+    white:   '0xc0caf5'
+
+  indexed_colors:
+    - { index: 16, color: '0xff9e64' }
+    - { index: 17, color: '0xdb4b4b' }
+

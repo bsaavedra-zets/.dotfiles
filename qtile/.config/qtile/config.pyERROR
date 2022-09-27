@@ -1,0 +1,395 @@
+# Copyright (c) 2010 Aldo Cortesi
+# Copyright (c) 2010, 2014 dequis
+# Copyright (c) 2012 Randall Ma Copyright (c) 2012-2014 Tycho Andersen
+# Copyright (c) 2012 Craig Barnes
+# Copyright (c) 2013 horsik
+# Copyright (c) 2013 Tao Sauvage
+#
+# Permission is hereby granted, free of charge, to any person obtaining a copy
+# of this software and associated documentation files (the "Software"), to deal
+# in the Software without restriction, including without limitation the rights
+# to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is
+# furnished to do so, subject to the following conditions:
+#
+# The above copyright notice and this permission notice shall be included in
+# all copies or substantial portions of the Software.
+#
+# THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+# IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+# FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+# AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+# LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+# OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+# SOFTWARE.
+
+import os
+import subprocess
+from libqtile import hook
+
+from libqtile import bar, layout, widget
+from libqtile.config import Click, Drag, Group, Key, Match, Screen
+from libqtile.lazy import lazy
+from libqtile.utils import guess_terminal
+
+
+
+mod = "mod4"
+terminal = guess_terminal()
+
+keys = [
+    # A list of available commands that can be bound to keys can be found
+    # at https://docs.qtile.org/en/latest/manual/config/lazy.html
+    # Switch between windows
+    Key([mod], "h", lazy.layout.left(), desc="Move focus to left"),
+    Key([mod], "l", lazy.layout.right(), desc="Move focus to right"),
+    Key([mod], "j", lazy.layout.down(), desc="Move focus down"),
+    Key([mod], "k", lazy.layout.up(), desc="Move focus up"),
+    Key([mod], "space", lazy.layout.next(), desc="Move window focus to other window"),
+    # Move windows between left/right columns or move up/down in current stack.
+    # Moving out of range in Columns layout will create new column.
+    Key([mod, "shift"], "h", lazy.layout.shuffle_left(), desc="Move window to the left"),
+    Key([mod, "shift"], "l", lazy.layout.shuffle_right(), desc="Move window to the right"),
+    Key([mod, "shift"], "j", lazy.layout.shuffle_down(), desc="Move window down"),
+    Key([mod, "shift"], "k", lazy.layout.shuffle_up(), desc="Move window up"),
+    # Grow windows. If current window is on the edge of screen and direction
+    # will be to screen edge - window would shrink.
+    Key([mod, "control"], "h", lazy.layout.grow_left(), desc="Grow window to the left"),
+    Key([mod, "control"], "l", lazy.layout.grow_right(), desc="Grow window to the right"),
+    Key([mod, "control"], "j", lazy.layout.grow_down(), desc="Grow window down"),
+    Key([mod, "control"], "k", lazy.layout.grow_up(), desc="Grow window up"),
+    Key([mod], "n", lazy.layout.normalize(), desc="Reset all window sizes"),
+    # Toggle between split and unsplit sides of stack.
+    # Split = all windows displayed
+    # Unsplit = 1 window displayed, like Max layout, but still with
+    # multiple stack panes
+    Key(
+        [mod, "shift"],
+        "Return",
+        lazy.layout.toggle_split(),
+        desc="Toggle between split and unsplit sides of stack",
+    ),
+    Key([mod], "Return", lazy.spawn("alacritty"), desc="Launch terminal"),
+
+    # rofi
+    Key([mod], "m", lazy.spawn("rofi -show drun"), desc="Open rofi's menu"),
+
+    # firefox
+    Key([mod], "b", lazy.spawn("firefox"), desc="launch firefox"),
+
+    # Toggle between different layouts as defined below
+    Key([mod], "Tab", lazy.next_layout(), desc="Toggle between layouts"),
+    Key([mod], "w", lazy.window.kill(), desc="Kill focused window"),
+    Key([mod, "control"], "r", lazy.reload_config(), desc="Reload the config"),
+    Key([mod, "control"], "q", lazy.shutdown(), desc="Shutdown Qtile"),
+    Key([mod], "r", lazy.spawncmd(), desc="Spawn a command using a prompt widget"),
+
+    # Volume Keys
+    Key([], "XF86AudioLowerVolume", lazy.spawn("pactl set-sink-volume @DEFAULT_SINK@ -5%")),
+    Key([], "XF86AudioRaiseVolume", lazy.spawn("pactl set-sink-volume @DEFAULT_SINK@ +5%")),
+    Key([], "XF86AudioMute", lazy.spawn("pactl set-sink-mute @DEFAULT_SINK@ toggle")),
+
+    # Brightness Keys
+    Key([], "XF86BrightnessUp", lazy.spawn("brightnessctl set +10%")),
+    Key([], "XF86BrightnessDown", lazy.spawn("brightnessctl set -10%")),
+
+    # ScreenShot Key
+    # Key([mod], "s", lazy.spawn("scrot"))
+]
+
+
+
+# Get the icons at https://www.nerdfonts.com/cheat-sheet (you need a Nerd Font)
+# Icons: 
+# nf-fa-firefox, 
+# nf-fae-python, 
+# nf-dev-terminal, 
+# nf-fa-code, 
+# nf-oct-git_merge, 
+# nf-linux-docker,
+# nf-mdi-image, 
+# nf-mdi-layers
+
+groups = [Group(i) for i in [
+    "  ", "   ", "   ", "   ", "  ",
+    # " ﱣ ", " ﱣ ", " ﱣ ", " ﱣ ", " ﱣ ", " ﱣ ",
+]]
+
+for i, group in enumerate(groups):
+    pages = str(i+1)
+    keys.extend(
+        [
+            # mod1 + letter of group = switch to group
+            Key(
+                [mod],
+                pages,
+                lazy.group[group.name].toscreen(),
+                desc="Switch to group {}".format(group.name),
+            ),
+            # mod1 + shift + letter of group = switch to & move focused window to group
+            Key(
+                [mod, "shift"],
+                pages,
+                lazy.window.togroup(group.name, switch_group=True),
+                desc="Switch to & move focused window to group {}".format(group.name),
+            ),
+            # Or, use below if you prefer not to switch to that group.
+            # # mod1 + shift + letter of group = move focused window to group
+            # Key([mod, "shift"], i.name, lazy.window.togroup(i.name),
+            #     desc="move focused window to group {}".format(i.name)),
+        ]
+    )
+
+layouts = [
+    layout.Columns(border_focus_stack=["#a151d3", "#a151d3"], border_width=4),
+    layout.Max(),
+    # Try more layouts by unleashing below layouts.
+    # layout.Stack(num_stacks=2),
+    # layout.Bsp(),
+    # layout.Matrix(),
+    # layout.MonadTall(),
+    # layout.MonadWide(),
+    # layout.RatioTile(),
+    # layout.Tile(),
+    # layout.TreeTab(),
+    # layout.VerticalTile(),
+    # layout.Zoomy(),
+]
+
+color_bar = "#282a36"
+size_bar = 28
+system_font = "Hack NF"
+widget_font_size = 13
+active_color = "#33fffc"
+inactive_color = "#8B0000"
+icon_size = 20
+sicon = icon_size
+fg_color = "#ffffff"
+bg_color = "#282a36"
+dark_color = "#44475a"
+light_color = "#EF5350"
+urgent_color = "#ff5555"
+text1_color = "#EF5350"
+update_color = "#bc0000"
+red_interface = "wlo1" 
+group_color_1 = "#ff7f00" # Naranja
+group_color_2 = "#d600f7" # Rosa oscuro
+group_color_3 = "#007bff" # Azul
+group_color_4 = "#c60000" # Rojo
+
+
+
+# funcion
+def separation():
+    return widget.Sep(
+        linewidth = 0,
+        padding = 6,
+        foreground = fg_color,
+        background = bg_color,
+    )
+
+# left half circle (0) right half circle (1)
+def half_circle(vColor, kind):
+    if kind == 0:
+        icon = "" # nf-ple-left_half_circle_thick
+    else:
+        icon = "" # nf-ple-right_half_circle_thick
+    return widget.TextBox(
+        text = icon,
+        fontsize = size_bar + 5,
+        foreground = vColor,
+        background = bg_color,
+        padding = -3
+    )
+
+# write text or icon
+def icons(icon, group_color):
+    return widget.TextBox(
+        text = icon,
+        foreground = fg_color,
+        background = group_color,
+        fontsize = icon_size,
+    )
+
+
+
+widget_defaults = dict(
+    font=system_font,
+    fontsize=widget_font_size,
+    padding=1,
+)
+extension_defaults = widget_defaults.copy()
+
+screens = [
+    Screen(
+        top=bar.Bar(
+            [
+                widget.GroupBox(
+                    active = active_color,
+                    inactive = inactive_color,
+                    border_width = 1,
+                    disable_drag = True,
+                    fontsize = icon_size,
+                    foreground = fg_color,
+                    highlight_method = 'block',
+                    margin_x = 0,
+                    margin_y = 2,
+                    other_current_screen_border = dark_color,
+                    other_screen_border = dark_color,
+                    padding_x = 0,
+                    padding_y = 10,
+                    this_current_screen_border = light_color,
+                    this_screen_border = light_color,
+                    urgent_alert_method = 'block',
+                    urgent_border = urgent_color,
+                ),
+                separation(),
+                widget.Prompt(),
+                widget.WindowName(
+                    foreground = text1_color,
+                    background = bg_color,
+                ),
+                widget.Systray(
+                    icon_size = sicon,
+                    background = bg_color,
+                ),
+                separation(),
+
+                # Group 1
+                half_circle(group_color_1, 0),
+                icons(" ", group_color_1), # nf-fa-thermometer
+                widget.ThermalSensor(
+                    foregroup = fg_color,
+                    background = group_color_1,
+                    threshold = 50,
+                    tag_sensor = "Core 0",
+                    fmt = 'T1:{}'
+                ),
+                widget.ThermalSensor(
+                    foregroup = fg_color,
+                    background = group_color_1,
+                    threshold = 50,
+                    tag_sensor = "Core 1",
+                    fmt = 'T2:{}'
+                ),
+
+                icons(" ", group_color_1),
+                widget.Memory(
+                    foreground = fg_color,
+                    background = group_color_1,
+                ),
+                half_circle(group_color_1, 1),
+                separation(),
+                # End Group 1
+
+                # Group 2
+                half_circle(group_color_2, 0),
+                icons(" ", group_color_2), # nf-mdi-autorenew
+                widget.CheckUpdates(
+                    background = group_color_2,
+                    colour_have_updates = update_color,
+                    colour_no_updates = fg_color,
+                    no_update_string = '0',
+                    display_format = 'Updates: {updates}',
+                    update_interval = 100,
+                    distro = 'Arch_checkupdates'
+                ),
+                icons(" 龍", group_color_2), # nf-mdi-speedometer
+                widget.Net(
+                    foreground = fg_color,
+                    background = group_color_2,
+                    format = red_interface + ' {down}   {up}', # nf-fa-arrow_circle_down nf-fa-arrow_circle_up
+                    interface = red_interface,
+                    use_bits = 'true'
+                ),
+                half_circle(group_color_2, 1),
+                separation(),
+                # End Group 2
+
+                # Gruop 3
+                half_circle(group_color_3, 0),
+                widget.Clock(
+                    background = group_color_3,
+                    foreground = fg_color,
+                    format="%Y/%m/%d %I:%M %p"
+                ),
+                icons(" ", group_color_3), # nf-fa-volume_up
+                widget.PulseVolume(
+                    foreground = fg_color,
+                    background = group_color_3,
+                    limit_max_volume = True,
+                    fontsize = widget_font_size,
+                ),
+                half_circle(group_color_3, 1),
+                separation(),
+                # End Group 3
+
+                # Group 4
+                half_circle(group_color_4, 0),
+                widget.CurrentLayoutIcon(
+                    background = group_color_4,
+                    scale = 0.7
+                ),
+                widget.CurrentLayout(
+                    background = group_color_4,
+                ),
+                half_circle(group_color_4, 1),
+                separation(),
+                # End Group 4
+            ],
+            size_bar,
+            background=color_bar
+            # border_width=[2, 0, 2, 0],  # Draw top and bottom borders
+            # border_color=["ff00ff", "000000", "ff00ff", "000000"]  # Borders are magenta
+        ),
+    ),
+]
+
+# Drag floating layouts.
+mouse = [
+    Drag([mod], "Button1", lazy.window.set_position_floating(), start=lazy.window.get_position()),
+    Drag([mod], "Button3", lazy.window.set_size_floating(), start=lazy.window.get_size()),
+    Click([mod], "Button2", lazy.window.bring_to_front()),
+]
+
+dgroups_key_binder = None
+dgroups_app_rules = []  # type: list
+follow_mouse_focus = True
+bring_front_click = False
+cursor_warp = False
+floating_layout = layout.Floating(
+    float_rules=[
+        # Run the utility of `xprop` to see the wm class and name of an X client.
+        *layout.Floating.default_float_rules,
+        Match(wm_class="confirmreset"),  # gitk
+        Match(wm_class="makebranch"),  # gitk
+        Match(wm_class="maketag"),  # gitk
+        Match(wm_class="ssh-askpass"),  # ssh-askpass
+        Match(title="branchdialog"),  # gitk
+        Match(title="pinentry"),  # GPG key password entry
+    ]
+)
+auto_fullscreen = True
+focus_on_window_activation = "smart"
+reconfigure_screens = True
+
+# If things like steam games want to auto-minimize themselves when losing
+# focus, should we respect this or not?
+auto_minimize = True
+
+# When using the Wayland backend, this can be used to configure input devices.
+wl_input_rules = None
+
+@hook.subscribe.startup_once
+def autostart():
+    home = os.path.expanduser('~')
+    subprocess.Popen([home + '/.config/qtile/autostart.sh'])
+
+# XXX: Gasp! We're lying here. In fact, nobody really uses or cares about this
+# string besides java UI toolkits; you can see several discussions on the
+# mailing lists, GitHub issues, and other WM documentation that suggest setting
+# this string if your java app doesn't work correctly. We may as well just lie
+# and say that we're a working one by default.
+#
+# We choose LG3D to maximize irony: it is a 3D non-reparenting WM written in
+# java that happens to be on java's whitelist.
+wmname = "LG3D"
