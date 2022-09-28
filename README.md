@@ -5,9 +5,9 @@
 # Índice
 - [Resumen](#resumen)
 - [Arch](#arch)
-  - [Instalación De ArcoLinux](#instalacion-de-arcolinux)
+  - [Instalación De ArcoLinux](#instalación-de-arcolinux)
 - [Qtile](#qtile)
-  - [Config.py](#config)
+  - [Config](#config)
   - [Scripts](#scripts)
     - [Autostart](#autostart)
     - [picom](#picom)
@@ -52,19 +52,21 @@ mismos comandos, y tambien el mismo gestor de paquetes que es "pacman", en mi co
 tengo otros paquetes como yay, paru y snap. Estos me sirven para poder agrandar más mi
 libreria de paquetes.
 
-  ## Instalación De ArcoLinux
+## Instalación De ArcoLinux
   
-  En esta parte no hay mucho que hacer la verdad por que al usar ArcoLinux todo se hace más
-  facil. La version que yo elegí fue ArcoLinuxB, con el gestor de ventanas Qtile, aquí te
-  dejo el link (https://sourceforge.net/projects/arcolinux-community-editions/files/qtile/).
-  Elegí la version "B" porque es basicamente tener un "Arch de cero" por que puedes elegir
-  todas las aplicaciones, configuraciones, etc. que necesites. Pero este proceso se hace
-  mas simple por que ocupa un conocido gestor de instalacion llamado "Calamares".
+En esta parte no hay mucho que hacer la verdad por que al usar ArcoLinux todo se hace más
+facil. La version que yo elegí fue ArcoLinuxB, con el gestor de ventanas Qtile, aquí te
+dejo el link (https://sourceforge.net/projects/arcolinux-community-editions/files/qtile/).
+Elegí la version "B" porque es basicamente tener un "Arch de cero" por que puedes elegir
+todas las aplicaciones, configuraciones, etc. que necesites. Pero este proceso se hace
+mas simple por que ocupa un conocido gestor de instalacion llamado "Calamares".
   
-  En el momento en que booteas el SO te aparecerá una ventana con en donde podrás elegir
-  si quieres una "Instalación fácil" o "Avanzada", aquí dependerá de tu conocimiento.
-  Personalmente yo usé la avanzada por que así también evitaba que se me instalarán cosas
-  que al final no ocuparía. Finalizando esta sección, pasemos al gestor de ventanas.
+En el momento en que booteas el SO te aparecerá una ventana con en donde podrás elegir
+si quieres una "Instalación fácil" o "Avanzada", aquí dependerá de tu conocimiento.
+Personalmente yo usé la avanzada por que así también evitaba que se me instalarán cosas
+que al final no ocuparía. Finalizando esta sección, pasemos al gestor de ventanas.
   
 # Qtile
+
+## Config
   
