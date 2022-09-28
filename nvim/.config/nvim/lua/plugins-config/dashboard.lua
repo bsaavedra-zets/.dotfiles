@@ -68,7 +68,7 @@ db.custom_center = {
       },
 
       {
-        desc = '  Open Zsh config                         ',
+        desc = ' Open Zsh config                         ',
         shortcut = 'SPC f z',
         action = 'edit ~/.zshrc',
 
