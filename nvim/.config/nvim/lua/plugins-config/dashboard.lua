@@ -28,12 +28,6 @@ db.custom_header = {
 }
 
 
--- db.custom_center = {
---    a = {description = {'  Find File          '}, command = 'Telescope find_files'},
---   d = {description = {'  Search Text        '}, command = 'Telescope live_grep'},
---   b = {description = {'  Recent Files       '}, command = 'Telescope oldfiles'},
---   e = {description = {'  Config             '}, command = 'edit ~/.config/nvim/init.lua'}
--- }
 db.custom_center = {
       -- {desc = '          Recently latest session                 ', action ='SessionLoad'},
       
@@ -71,5 +65,12 @@ db.custom_center = {
          desc = ' Open Qtile Config                       ',
          shortcut = 'SPC f d',
          action = 'edit ~/.config/qtile',
+      },
+
+      {
+        desc = '  Open Zsh config                         ',
+        shortcut = 'SPC f z',
+        action = 'edit ~/.zshrc',
+
       },
     }

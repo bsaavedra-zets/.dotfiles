@@ -42,6 +42,9 @@ keymap("n", "<Leader>n", ":NvimTreeToggle<CR>", opts)
 keymap("n", "<Leader>ff", ":Telescope find_files<CR>", opts)
 keymap("n", "<Leader>fg", ":Telescope live_grep<CR>", opts)
 
+-- Hop
+keymap("n", "<Leader>ss", ":HopChar2<CR>", opts)
+
 -- Close current buffer
 keymap("n", "<C-b>", ":bd<CR>", {})
 

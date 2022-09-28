@@ -140,7 +140,7 @@ export TERM=xterm-256color
 PATH="$HOME/.local/bin/virtualenv:$PATH"
 
 ### ALIASES ###
-
+## Mis alias
 #list
 alias ls='ls --color=auto'
 # alias la='ls -a'
@@ -155,6 +155,12 @@ alias cat='bat'
 alias ll='lsd -lh --group-dirs=first'
 alias la='lsd -la'
 
+# Python Django alias
+alias pm='python manage.py'
+alias senv='source env/bin/activate'
+
+
+## Fin Mis alias
 #fix obvious typo's
 alias cd..='cd ..'
 alias pdw='pwd'
