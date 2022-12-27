@@ -31,8 +31,8 @@ local options = {
   scrolloff = 8,                           -- is one of my fav
   sidescrolloff = 8,
   hidden = true,
-  textwidth = 80,
-  colorcolumn = "81",
+  -- textwidth = ,
+  colorcolumn = "100",
 
 }
 

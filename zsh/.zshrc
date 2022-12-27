@@ -1,7 +1,7 @@
 ###
 # If you come from bash you might have to change your $PATH.
 # export PATH=$HOME/bin:/usr/local/bin:$PATH
-
+  
 # Path to your oh-my-zsh installation.
 #installation via script from github
 #export ZSH="/home/$USER/.oh-my-zsh"
@@ -13,23 +13,15 @@ export ZSH=/usr/share/oh-my-zsh/
 # to know which specific one was loaded, run: echo $RANDOM_THEME
 # See https://github.com/ohmyzsh/ohmyzsh/wiki/Themes
 # if you installed the package oh-my-zsh-powerline-theme-git then you type here "powerline" as zsh theme
-ZSH_THEME="cloud"
+# Themes that I use: cloud, half-life, intheloop, jispwoso
+ZSH_THEME="sonicradish"
 
-# Set list of themes to pick from when loading at random
-# Setting this variable when ZSH_THEME=random will cause zsh to load
-# a theme from this variable instead of looking in ~/.oh-my-zsh/themes/
-# If set to an empty array, this variable will have no effect.
-
-# ZSH_THEME_RANDOM_CANDIDATES=( "robbyrussell" "agnoster" )
-
-# ZSH_THEME_RANDOM_IGNORED=(pygmalion tjkirch_mod)
 
 # Uncomment the following line to use case-sensitive completion.
 # CASE_SENSITIVE="true"
 
 # Uncomment the following line to use hyphen-insensitive completion.
-# Case-sensitive completion must be off. _ and - will be interchangeable.
-# HYPHEN_INSENSITIVE="true"
+# Case-sensitive completion must be off. _ and - will be interchangeable. HYPHEN_INSENSITIVE="true"
 
 # Uncomment the following line to disable bi-weekly auto-update checks.
 # DISABLE_AUTO_UPDATE="true"
@@ -80,7 +72,12 @@ plugins=(
   git
   zsh-autosuggestions
   zsh-syntax-highlighting
+
 )
+
+source /usr/share/zsh/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
+source /usr/share/zsh/plugins/zsh-autosuggestions/zsh-autosuggestions.zsh
+# source /usr/share/zsh/plugins/zsh-completions/zsh-completions.plugin.zsh
 
 if [ -f $ZSH/oh-my-zsh.sh ]; then
   source $ZSH/oh-my-zsh.sh
@@ -107,9 +104,9 @@ fi
 ####   ARCOLINUX SETTINGS   ####
 export PAGER='most'
 
-if [ -f /usr/share/zsh/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh ]; then
-  source /usr/share/zsh/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
-fi
+# if [ -f /usr/share/zsh/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh ]; then
+#   source /usr/share/zsh/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
+# fi
 
 setopt GLOB_DOTS
 #share commands between terminal instances or not
@@ -123,8 +120,8 @@ export HISTCONTROL=ignoreboth:erasedups
 
 # Make nano the default editor
 
-export EDITOR='nano'
-export VISUAL='nano'
+export EDITOR='nvim'
+export VISUAL='nvim'
 
 #PS1='[\u@\h \W]\$ '
 
@@ -157,7 +154,22 @@ alias la='lsd -la'
 
 # Python Django alias
 alias pm='python manage.py'
+alias pmr='python manage.py runserver'
+alias pmm='python manage.py makemigrations'
+alias pme='python manage.py migrate'
+alias startapp='django-admin startapp'
 alias senv='source env/bin/activate'
+alias denv='deactivate'
+
+# Mysql
+alias mysqlstart='sudo mysql.server start'
+alias mysqlstop='sudo mysql.server stop'
+alias mysqlstatus='sudo mysql.server status'
+
+# Add new fonts
+alias fonts='cd /usr/share/fonts/'
+alias icons='cd /usr/share/icons/'
+alias themes='cd /usr/share/themes/'
 
 
 ## Fin Mis alias

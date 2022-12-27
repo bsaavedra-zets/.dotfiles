@@ -5,15 +5,18 @@ mod = "mod4"
 alt = "mod1"
 
 keys = [
-    # A list of available commands that can be bound to keys can be found
-    # at https://docs.qtile.org/en/latest/manual/config/lazy.html
-    # Switch between windows
+
+
+    # Switch between windows in current stack panel
     Key([mod], "h", lazy.layout.left(), desc="Move focus to left"),
     Key([mod], "l", lazy.layout.right(), desc="Move focus to right"),
     Key([mod], "j", lazy.layout.down(), desc="Move focus down"),
     Key([mod], "k", lazy.layout.up(), desc="Move focus up"),
-    Key([mod], "space", lazy.layout.next(),
-        desc="Move window focus to other window"),
+
+    # Swithc focus of monitors
+    Key([mod], "period", lazy.next_screen()),
+    Key([mod], "comma", lazy.prev_screen()),
+
     # Move windows between left/right columns or move up/down in current stack.
     # Moving out of range in Columns layout will create new column.
     Key([mod, "shift"], "h", lazy.layout.shuffle_left(),
@@ -48,7 +51,7 @@ keys = [
         desc="Toggle between split and unsplit sides of stack",
     ),
 
-    # Toggle between different layouts as defined below
+    # Toggle between different layouts as defined below 
     Key([mod], "Tab", lazy.next_layout(), desc="Toggle between layouts"),
     Key([mod], "w", lazy.window.kill(), desc="Kill focused window"),
     Key([mod, "control"], "r", lazy.reload_config(), desc="Reload the config"),
@@ -64,8 +67,11 @@ keys = [
 
     # Control Play
     Key([], "XF86AudioPlay", lazy.spawn("playerctl play-pause")),
+    Key([], "XF86AudioPrev", lazy.spawn("playerctl previous")),
     # Control Next
     Key([], "XF86AudioNext", lazy.spawn("playerctl next")),
+
+
 
     # Brightness keys
     Key([], "XF86MonBrightnessUp", lazy.spawn("xbacklight -inc 10")),

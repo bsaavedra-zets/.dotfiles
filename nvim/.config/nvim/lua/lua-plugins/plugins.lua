@@ -2,18 +2,33 @@ return require"packer".startup(function()
   use "wbthomason/packer.nvim" -- Have packer manage itself
   use "kyazdani42/nvim-web-devicons"
   use "kyazdani42/nvim-tree.lua"
-  use "nvim-lualine/lualine.nvim"
+
+  -- Status line
   use "romgrk/barbar.nvim"
+
+  -- Lualine Packages
+  use "nvim-lualine/lualine.nvim"
+  use 'arkav/lualine-lsp-progress'
+
+-- use {'akinsho/bufferline.nvim', tag = "v2.*"}
+
   use "windwp/nvim-autopairs"
 
   -- Hop -> easymotion
   use {
     'phaazon/hop.nvim',
-    branch = 'v2', -- optional but strongly recommended
+    branch = 'v2', -- optional but st:rongly recommended
     config = function()
     -- you can configure Hop the way you like here; see :h hop-config
     require'hop'.setup { keys = 'etovxqpdygfblzhckisuran' }
     end
+  }
+
+
+  -- Pdf Preview
+  use {
+    'marioortizmanero/adoc-pdf-live.nvim',
+    config = "require('adoc_pdf_live').setup()"
   }
 
   -- Plugins para identacion de lenguajes no soportados por Treesitter

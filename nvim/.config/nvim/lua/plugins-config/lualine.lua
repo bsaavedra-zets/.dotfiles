@@ -1,7 +1,8 @@
 require('lualine').setup {
   options = {
     icons_enabled = true,
-    theme = 'auto',
+    -- theme = 'auto',
+    theme = 'nord',
     -- component_separators = { left = '', right = ''},
     -- section_separators = { left = '', right = ''},
     component_separators = { left = '⏽', right = '⏽'},
@@ -22,7 +23,7 @@ require('lualine').setup {
   sections = {
     lualine_a = {'mode'},
     lualine_b = {'branch', 'diff', 'diagnostics'},
-    lualine_c = {'filename'},
+    lualine_c = {'filename', 'lsp_progress'},
     lualine_x = {'encoding', 'fileformat', 'filetype'},
     lualine_y = {'progress'},
     lualine_z = {'location'}
@@ -39,4 +40,5 @@ require('lualine').setup {
   winbar = {},
   inactive_winbar = {},
   extensions = {}
+
 }

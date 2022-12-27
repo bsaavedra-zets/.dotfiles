@@ -8,10 +8,10 @@ local lsp_defaults = {
 
   },
   -- Funcionalidades que neovim puede manejar
-  capabilities = require('cmp_nvim_lsp').update_capabilities(
+  capabilities = require('cmp_nvim_lsp').default_capabilities({
     -- opciones que neovim soporta por defecto
     vim.lsp.protocol.make_client_capabilities()
-  ),
+  }),
   -- Funcion que se ejecutara cuando un servidor se vincule a un buffer.
   -- Por lo general aqui creamos comandos y atajos de teclado vinculados a
   -- funciones al servidor LSP
@@ -20,6 +20,7 @@ local lsp_defaults = {
     vim.api.nvim_exec_autocmds('User', { pattern = 'LspAttached' })
   end
 }
+
 
 local lspconfig = require('lspconfig')
 
@@ -42,41 +43,55 @@ lspconfig.sumneko_lua.setup({
   },
   -- Esta funcion llama al on_attach creado en el lsp_defaults
   on_attach = function(client, bufnr)
-    print('Lua LSP has started good!')
+    -- print('Lua LSP has started good!')
     lspconfig.util.default_config.on_attach(client,bufnr)
   end
 
 })
+
 lspconfig.pyright.setup({
   on_attach = function(client, bufnr)
-    print('Python LSP has started good!')
+    -- print('Python LSP has started good!')
+    lspconfig.util.default_config.on_attach(client, bufnr)
+  end
+})
+
+lspconfig.jedi_language_server.setup({
+  on_attach = function(client, bufnr)
+    -- print('Python LSP has started good!')
     lspconfig.util.default_config.on_attach(client, bufnr)
   end
 })
 
 lspconfig.html.setup({ 
   on_attach = function(client, bufnr)
-    print('HTML LSP has started good!')
+    -- print('HTML LSP has started good!')
     lspconfig.util.default_config.on_attach(client, bufnr)
   end,
   filetypes = { "html", "htmldjango"}
 })
+
 lspconfig.emmet_ls.setup({
   on_attach = function(client, bufnr)
     lspconfig.util.default_config.on_attach(client, bufnr)
-  end
+  end,
+  filetypes = { 
+    "html", "htmldjango" ,
+    "typescriptreact", "javascriptreact",
+    "css", "sass", "scss", "less" }
 })
+
 
 lspconfig.cssls.setup({
   on_attach = function(client, bufnr)
-    print('CSS LSP has started good!')
+    -- print('CSS LSP has started good!')
     lspconfig.util.default_config.on_attach(client, bufnr)
   end,
 })
 
 lspconfig.tsserver.setup({
   on_attach = function(client, bufnr)
-    print('TSServer LSP has started good!')
+    -- print('TSServer LSP has started good!')
     lspconfig.util.default_config.on_attach(client, bufnr)
   end,
   root_dir = function(fname)
@@ -84,9 +99,10 @@ lspconfig.tsserver.setup({
   end,
 })
 
+
 lspconfig.jsonls.setup({
   on_attach = function(client, bufnr)
-    print('Json LSP has started good!')
+    -- print('Json LSP has started good!')
     lspconfig.util.default_config.on_attach(client, bufnr)
   end,
 })

@@ -26,6 +26,9 @@ keymap("n", "<C-h>", "<C-w>h", opts)
 keymap("n", "<C-k>", "<C-w>k", opts)
 keymap("n", "<C-l>", "<C-w>l", opts)
 
+keymap("n", "<leader>h", "_", opts)
+keymap("n", "<Leader>l", "$", opts)
+
 -- Resize with alt + hjkl
 keymap("n", "<M-j>", ":resize -2<CR>", opts)
 keymap("n", "<M-k>", ":resize +2<CR>", opts)

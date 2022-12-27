@@ -1,6 +1,3 @@
-#hola
-#como estas
-#bien y tu
 window:
   # Background opacity
   #
@@ -10,8 +7,6 @@ window:
 
 
 scrolling:
-  # Maximum number of lines in the scrollback buffer.
-  # Specifying '0' will disable scrolling.
   history: 50000
 
   # Scrolling distance multiplier.
@@ -23,12 +18,10 @@ font:
   normal:
     # Font family
     #
-    # Default:
-    #   - (macOS) Menlo
-    #   - (Linux/BSD) monospace
-    #   - (Windows) Consolas
-    # family: hack
+    # family: Hack Nerd Font Mono
     family: CaskaydiaCove Nerd Font
+    # family: jetBrainsMono Nerd Font
+    # family: FiraCode Nerd Font
 
     # The `style` can be specified to pick a specific face.
     style: Regular
@@ -37,10 +30,10 @@ font:
   bold:
     # Font family
     #
-    # If the bold family is not specified, it will fall back to the
-    # value specified for the normal font.
     # family: hack
     family: CaskaydiaCove Nerd Font
+    # family: jetBrainsMono Nerd Font
+    # family: FiraCode Nerd Font
 
     # The `style` can be specified to pick a specific face.
     style: Bold
@@ -49,10 +42,10 @@ font:
   italic:
     # Font family
     #
-    # If the italic family is not specified, it will fall back to the
-    # value specified for the normal font.
     # family: hack
     family: CaskaydiaCove Nerd Font
+    # family: jetBrainsMono Nerd Font
+    # family: FiraCode Nerd Font
 
     # The `style` can be specified to pick a specific face.
     style: Italic
@@ -61,47 +54,48 @@ font:
   bold_italic:
     # Font family
     #
-    # If the bold italic family is not specified, it will fall back to the
-    # value specified for the normal font.
     # family: monospace
     family: CaskaydiaCove Nerd Font
+    # family: jetBrainsMono Nerd Font
+    # family: FiraCode Nerd Font
+
 
     # The `style` can be specified to pick a specific face.
     style: Bold Italic
 
   # Point size
-  size: 9.0
+  size: 10.5
 
-# TokyoNight Alacritty Colors
 colors:
   # Default colors
   primary:
-    background: '0x24283b'
-    foreground: '0xc0caf5'
-
+    background: '0x2e3440'
+    foreground: '0xcdcecf'
   # Normal colors
   normal:
-    black:   '0x1D202F'
-    red:     '0xf7768e'
-    green:   '0x9ece6a'
-    yellow:  '0xe0af68'
-    blue:    '0x7aa2f7'
-    magenta: '0xbb9af7'
-    cyan:    '0x7dcfff'
-    white:   '0xa9b1d6'
-
+    black:   '0x3b4252'
+    red:     '0xbf616a'
+    green:   '0xa3be8c'
+    yellow:  '0xebcb8b'
+    blue:    '0x81a1c1'
+    magenta: '0xb48ead'
+    cyan:    '0x88c0d0'
+    white:   '0xe5e9f0'
   # Bright colors
   bright:
-    black:   '0x414868'
-    red:     '0xf7768e'
-    green:   '0x9ece6a'
-    yellow:  '0xe0af68'
-    blue:    '0x7aa2f7'
-    magenta: '0xbb9af7'
-    cyan:    '0x7dcfff'
-    white:   '0xc0caf5'
-
+    black:   '0x465780'
+    red:     '0xd06f79'
+    green:   '0xb1d196'
+    yellow:  '0xf0d399'
+    blue:    '0x8cafd2'
+    magenta: '0xc895bf'
+    cyan:    '0x93ccdc'
+    white:   '0xe7ecf4'
   indexed_colors:
-    - { index: 16, color: '0xff9e64' }
-    - { index: 17, color: '0xdb4b4b' }
+    - { index: 16, color: '0xc9826b' }
+    - { index: 17, color: '0xbf88bc' }
+
+
+shell:
+  program: /usr/bin/zsh
 

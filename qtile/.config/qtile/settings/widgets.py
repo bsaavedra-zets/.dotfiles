@@ -1,77 +1,33 @@
 from libqtile import widget, bar
+from libqtile import qtile
 from libqtile.config import  Screen
+from . import colors
 
-# color_bar = "#282a36"
-color_bar = "#24283B"
-size_bar = 28
-system_font = "FiraCode NF"
+
+colors, backgroundColor, foregroundColor, workspaceColor, foregroundColorTwo =colors.nord() 
+
+size_bar = 30
+system_font = "FiraCode NF "
 widget_font_size = 15
-active_color = "#F1FFFF"
-inactive_color = "#4C566A"
-icon_size = 23
-groups_font_size = 20
-fg_color = "#ffffff"
-# bg_color = "#282a36"
-bg_color = "#24283B"
-dark_color = "#212121"
-# light_color = "#982428"
-light_color = "#7aa2f7"
-urgent_color = "#ff5555"
-# text1_color = "#EF5350"
-text1_color = "#7aa2f7"
-# update_color = "#bc0000"
-update_color = "#a68bf0"
-red_interface = "wlo1" 
-# group_color_1 = "#ff7f00" # Naranja
-# group_color_2 = "#d600f7" # Rosa oscuro
-# group_color_3 = "#007bff" # Azul
-# group_color_4 = "#c60000" # Rojo
-group_update = "#37383B"
-group_color_1 = "#334148"
-group_color_2 = "#4C566A"
-group_color_3 = "#556A74"
-# group_color_4 = "#982428"
-group_color_4 = "#7aa2f7"
-
+icon_size = 18
+net_interface = 'wlo1'
 
 
 # funcion
-def separation():
+def separation(line):
     return widget.Sep(
-        linewidth = 0,
-        padding = 6,
-        foreground = fg_color,
-        background = bg_color,
-    )
-
-# left half circle (0) right half circle (1)
-def half_circle(vColor, kind):
-    if kind == 0:
-        icon = "" # nf-ple-left_half_circle_thick
-    else:
-        icon = "" # nf-ple-right_half_circle_thick
-    return widget.TextBox(
-        text = icon,
-        fontsize = size_bar ,
-        foreground = vColor,
-        background = bg_color,
-        padding = -5
-    )
-
-# write text or icon
-def icons(icon, group_color):
-    return widget.TextBox(
-        text = icon,
-        foreground = fg_color,
-        background = group_color,
-        fontsize = icon_size,
+        linewidth = line,
+        padding = 15,
+        foreground = foregroundColorTwo,
+        background = backgroundColor,
     )
 
 
 widget_defaults = dict(
     font=system_font,
     fontsize=widget_font_size,
-    padding=1,
+    padding=2,
+
 )
 extension_defaults = widget_defaults.copy()
 
@@ -80,121 +36,243 @@ screens = [
         top=bar.Bar(
             [
                 widget.GroupBox(
-                    active = active_color,
-                    inactive = inactive_color,
-                    border_width = 1,
+                    active = colors[2],
+                    inactive = colors[1],
+                    # border_width = 5,
                     disable_drag = True,
-                    fontsize = groups_font_size,
-                    foreground = fg_color,
+                    fontsize = 20,
+                    foreground = foregroundColor,
                     highlight_method = 'block',
                     margin_x = 0,
                     margin_y = 3,
-                    other_current_screen_border = dark_color,
-                    other_screen_border = dark_color,
+                    other_current_screen_border = colors[3],
+                    other_screen_border = colors[3],
                     padding_x = 0,
                     padding_y = 10,
-                    this_current_screen_border = light_color,
-                    this_screen_border = light_color,
+                    this_current_screen_border = colors[3],
+                    this_screen_border = colors[3],
                     urgent_alert_method = 'block',
-                    urgent_border = urgent_color,
+                    urgent_border = colors[9],
                 ),
-                separation(),
                 widget.Prompt(),
                 widget.WindowName(
-                    foreground = text1_color,
-                    background = bg_color,
+                    foreground = colors[4],
+                    background = backgroundColor,
                 ),
 
-                separation(),
+                widget.CurrentScreen(
+                    # active_text = "Active",
+                    # inactive_text = "Inactive"
+                    active_color = colors[5],
+                    inactive_color = colors[9],
+
+                ),
+
+                separation(1),
+
                 # Update group
-                half_circle(group_update, 0),
-                icons("ﯲ", group_update), # nf-mdi-autorenew
                 widget.CheckUpdates(
-                    background = group_update,
-                    colour_have_updates = update_color,
-                    colour_no_updates = fg_color,
-                    no_update_string = '0',
-                    display_format = '{updates}',
+                    background = backgroundColor,
+                    colour_have_updates = colors[6],
+                    colour_no_updates = colors[6],
+                    no_update_string = ' 0',
+                    display_format = ' {updates}',
                     update_interval = 1800,
                     custom_command = 'checkupdates',
                 ),
-                half_circle(group_update, 1),
-                separation(),
 
+                separation(0),
                 # Group 1
-                half_circle(group_update, 0),
+
+                widget.Memory(
+                    background = backgroundColor,
+                    foreground = colors[9],
+                    format = ' {MemUsed:.0f}{mm}/{MemTotal:.0f}{mm}',
+                    mouse_callbacks = {
+                        'Button1': lambda: qtile.cmd_spawn("alacritty -e htop")
+                    },
+                ),
+
+                separation(0),
                 widget.DF(
                     visible_on_warn = False,
                     partition = '/',
-                    format = '{uf}{m}',
-                    foreground = fg_color,
-                    background = group_update,
+                    format = ' {uf}{m}',
+                    foreground = colors[9],
+                    background = backgroundColor,
                 ),
-                half_circle(group_update, 1),
-                separation(),
-                # End Group 1
+                separation(0),
 
-                # Group 2
-                # half_circle(group_color_2, 0),
-                # icons("", group_color_2), # nf-mdi-speedometer
-                # widget.Net(
-                #     foreground = fg_color,
-                #     background = group_color_2,
-                #     # format = red_interface + ' {down}   {up}', # nf-fa-arrow_circle_down nf-fa-arrow_circle_up
-                #     interface = red_interface,
-                #     use_bits = 'true'
-                # ), 
-                # half_circle(group_color_2, 1),
 
-                half_circle(group_color_1, 0),
-                widget.TextBox(
-                        text='wlo1',
-                        background = group_color_1
-                        ),
-                widget.HDDBusyGraph(
-                        foreground = fg_color,
-                        background = group_color_1
-                        ),
-                half_circle(group_color_1, 1),
-                separation(),
-                # End Group 2
-                
-                # Gruop 3
-                half_circle(group_color_3, 0),
+                # icons('直', backgroundColor, colors[7]),
+                widget.Net(
+                    interface = net_interface,
+                    format = '直 {down} ↓↑ {up}',
+                    background = backgroundColor,
+                    foreground = colors[7]
+                ),                
+                separation(0),
+
                 widget.Clock(
-                    background = group_color_3,
-                    foreground = fg_color,
-                    format="%Y/%m/%d %I:%M %p"
+                    background = backgroundColor,
+                    foreground = colors[10],
+                    format = " %a %d %m %Y |  %I:%M %p",
                 ),
-                half_circle(group_color_3, 1),
-                separation(),
-                # End Group 3
-                # Group 4
-                half_circle(group_color_4, 0),
-                widget.CurrentLayoutIcon(
-                    background = group_color_4,
-                    scale = 0.7
-                ),
+                separation(0),
+
+                # widget.CurrentLayoutIcon(
+                #     background = backgroundColor,
+                #     scale = 0.5
+                # ),
                 widget.CurrentLayout(
-                    background = group_color_4,
+                    background = backgroundColor,
+                    foreground = colors[5]
                 ),
-                half_circle(group_color_4, 1),
-                separation(),
-                # End Group 4
+
+                separation(0),
+
                 widget.Systray(
                     icon_size = icon_size,
-                    background = bg_color,
+                    background = backgroundColor,
                 ),
 
 
             ],
             size_bar,
-            background=color_bar
+            background = backgroundColor
             # border_width=[2, 0, 2, 0],  # Draw top and bottom borders
             # border_color=["ff00ff", "000000", "ff00ff", "000000"]  # Borders are magenta
         ),
     ),
+
+    # Second Screen
+    Screen(
+        top=bar.Bar(
+            [
+                widget.GroupBox(
+                    active = colors[2],
+                    inactive = colors[1],
+                    # border_width = 5,
+                    disable_drag = True,
+                    fontsize = 15,
+                    foreground = foregroundColor,
+                    highlight_method = 'block',
+                    margin_x = 0,
+                    margin_y = 3,
+                    other_current_screen_border = colors[3],
+                    other_screen_border = colors[3],
+                    padding_x = 0,
+                    padding_y = 10,
+                    this_current_screen_border = colors[3],
+                    this_screen_border = colors[3],
+                    urgent_alert_method = 'block',
+                    urgent_border = colors[9],
+                ),
+                widget.Prompt(),
+                widget.WindowName(
+                    foreground = colors[4],
+                    background = backgroundColor,
+                ),
+
+                separation(1),
+                
+                widget.CapsNumLockIndicator(
+                    fmt="{}",
+                    background = backgroundColor,
+                    foreground = colors[7],
+                ),
+
+
+
+                separation(1),
+
+                widget.CurrentScreen(
+                        active_text = "active",
+                        inactive_text = "inactive",
+                        active_color = colors[5],
+                        inactive_color = colors[9],
+
+                    ),
+                
+                separation(1),
+                
+                widget.Clock(
+                    background = backgroundColor,
+                    foreground = colors[10],
+                    format = " %I:%M %p",
+                ),
+
+                separation(0),
+
+                widget.CurrentLayout(
+                    background = backgroundColor,
+                    foreground = colors[5]
+                ),
+
+
+            ],
+        25,
+        background = backgroundColor
+        )
+
+    ),
+
+    # Third Screen
+    Screen(
+        top=bar.Bar(
+            [
+                widget.GroupBox(
+                    active = colors[2],
+                    inactive = colors[1],
+                    # border_width = 5,
+                    disable_drag = True,
+                    fontsize = 15,
+                    foreground = foregroundColor,
+                    highlight_method = 'block',
+                    margin_x = 0,
+                    margin_y = 3,
+                    other_current_screen_border = colors[3],
+                    other_screen_border = colors[3],
+                    padding_x = 0,
+                    padding_y = 10,
+                    this_current_screen_border = colors[3],
+                    this_screen_border = colors[3],
+                    urgent_alert_method = 'block',
+                    urgent_border = colors[9],
+                ),
+                widget.Prompt(),
+                widget.WindowName(
+                    foreground = colors[4],
+                    background = backgroundColor,
+                ),
+
+                widget.CurrentScreen(
+                    active_text = "active",
+                    inactive_text = "inactive",
+                    active_color = colors[5],
+                    inactive_color = colors[9],
+                ),
+
+                separation(1),
+
+                widget.Clock(
+                    background = backgroundColor,
+                    foreground = colors[10],
+                    format = " %I:%M %p",
+                ),
+
+                separation(0),
+
+                widget.CurrentLayout(
+                    background = backgroundColor,
+                    foreground = colors[5]
+                ),
+
+
+            ],
+        25,
+        background = backgroundColor
+        )
+
+    ),
 ]
-
-
-
